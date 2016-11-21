@@ -8,7 +8,7 @@
     name: "private"
     project: "wordpress"
 
-- name: Create Wordpess Subnet
+- name: Create Wordpress Subnet
   os_subnet:
     auth: "{{ admin_auth }}"
     name: "private_subnet"
@@ -20,7 +20,7 @@
     cidr: "192.168.2.0/24"
     project: "wordpress"
 
-- name: Create Wordpess Router
+- name: Create Wordpress Router
   os_router:
     auth: "{{ admin_auth }}"
     name: "wordpress_router"
