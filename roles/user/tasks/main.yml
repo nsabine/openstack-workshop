@@ -1,0 +1,16 @@
+---
+- name: Get start timestamp
+  set_fact: starttime="{{ ansible_date_time }}"
+
+- name: Create Wordpress Project
+  os_project:
+    auth: "{{ admin_auth }}"
+    name: wordpress
+
+- name: Create Wordpess User
+  os_user:
+    auth: "{{ admin_auth }}"
+    name: "wordpress"
+    password: "wordpress"
+    default_project: "wordpress"
+
