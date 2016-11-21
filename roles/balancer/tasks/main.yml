@@ -26,7 +26,7 @@
 
 - name: Place the haproxy configuration file
   copy:
-    src: templates/haproxy.cfg.j2
+    src: haproxy.cfg
     dest: /etc/haproxy/haproxy.cfg
     owner: root
     group: root
@@ -34,7 +34,7 @@
 
 - name: Place the haproxy configuration file
   copy:
-    src: templates/haproxy_fedora.cfg.j2
+    src: haproxy_fedora.cfg
     dest: /etc/haproxy/haproxy.cfg
     owner: root
     group: root
