@@ -1,6 +1,6 @@
 ---
 - name: Wait until server is up and runnning
-  local_action: wait_for host="{{ ansible_host }}" port=22 search_regex=OpenSSH delay=60
+  local_action: wait_for host="{{ ansible_host }}" state=started
   become: no
 
 - name: Check if running on Fedora
