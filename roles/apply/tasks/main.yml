@@ -25,6 +25,7 @@
     auth: "{{ admin_auth }}"
     name: "wordpress_router"
     network: "public"
+    project: "wordpress"
     interfaces:
       - "private_subnet"
 
