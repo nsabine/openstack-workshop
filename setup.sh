@@ -4,10 +4,10 @@
 HOSTS="ctrl.example.com comp00.example.com comp01.example.com net00.example.com net01.example.com net02.example.com"
 for HOST in $HOSTS;
 do
-  ssh $HOST 'echo "UseDNS no" >> /etc/ssh/sshd_config; systemctl restart sshd'
   ssh $HOST "yum install -y openstack-utils openstack-selinux iptables-services"
   ssh $HOST "systemctl stop firewalld ; systemctl disable firewalld ; systemctl start iptables ; systemctl start ip6tables ; systemctl enable iptables ; systemctl enable ip6tables ; systemctl stop NetworkManager ; systemctl disable NetworkManager"
   ssh $HOST /root/network_bonding_setup.sh
+  ssh $HOST 'echo "UseDNS no" >> /etc/ssh/sshd_config; systemctl restart sshd'
 done
 
 # fix broken cinder config
