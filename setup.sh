@@ -71,6 +71,8 @@ echo "########################################################################"
 # don't automatically run the rest
 exit 0
 
+# complete the following on bastion host, as root:
+
 # workshop ansible playbooks
 git clone https://github.com/nsabine/openstack-workshop
 
