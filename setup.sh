@@ -4,9 +4,10 @@
 HOSTS="ctrl.example.com comp00.example.com comp01.example.com net00.example.com net01.example.com net02.example.com"
 for HOST in $HOSTS;
 do
-  ssh $HOST "yum install -y openstack-utils openstack-selinux iptables-services"
-  ssh $HOST "systemctl stop firewalld ; systemctl disable firewalld ; systemctl start iptables ; systemctl start ip6tables ; systemctl enable iptables ; systemctl enable ip6tables ; systemctl stop NetworkManager ; systemctl disable NetworkManager"
+  ssh $HOST "yum install -y openstack-utils openstack-selinux iptables-services rng-tools"
+  ssh $HOST "systemctl stop firewalld ; systemctl disable firewalld ; systemctl start iptables ; systemctl start ip6tables ; systemctl enable iptables ; systemctl enable ip6tables ; systemctl stop NetworkManager ; systemctl disable NetworkManager; systemctl start rngd ; systemctl enable rngd"
   ssh $HOST /root/network_bonding_setup.sh
+  ssh $HOST "sed -i -e 's/Defaults.*requiretty/Defaults \!requiretty/g' /etc/sudoers"
   ssh $HOST 'echo "UseDNS no" >> /etc/ssh/sshd_config; systemctl restart sshd'
 done
 
@@ -32,12 +33,8 @@ ssh ctrl.example.com 'echo "nameserver 8.8.8.8" >> /etc/resolv.conf'
 #ssh ctrl.example.com "source keystonerc_admin ; glance image-create --name rhel7.3 --visibility public --disk-format qcow2 --container-format bare --file rhel-guest-image-7.3-35.x86_64.qcow2 --progress"
 
 # import Fedora
-#ssh ctrl.example.com 'wget https://download.fedoraproject.org/pub/fedora/linux/releases/24/CloudImages/x86_64/images/Fedora-Cloud-Base-24-1.2.x86_64.qcow2'
-#ssh ctrl.example.com "source keystonerc_admin ; glance image-create --name fedora --visibility public --disk-format qcow2 --container-format bare --file Fedora-Cloud-Base-24-1.2.x86_64.qcow2 --progress"
-
-# import Fedora-Custom
-ssh ctrl.example.com 'wget https://nicksabine.com/workshop/fedora.qcow2'
-ssh ctrl.example.com "source keystonerc_admin ; glance image-create --name fedora --visibility public --disk-format qcow2 --container-format bare --file fedora.qcow2 --progress"
+ssh ctrl.example.com 'wget https://download.fedoraproject.org/pub/fedora/linux/releases/24/CloudImages/x86_64/images/Fedora-Cloud-Base-24-1.2.x86_64.qcow2'
+ssh ctrl.example.com "source keystonerc_admin ; glance image-create --name fedora --visibility public --disk-format qcow2 --container-format bare --file Fedora-Cloud-Base-24-1.2.x86_64.qcow2 --progress"
 
 # allow ports in default security group (removed - handled by playbook)
 #ssh ctrl.example.com "source keystonerc_admin ; nova secgroup-add-rule default tcp 22 22 0.0.0.0/0"

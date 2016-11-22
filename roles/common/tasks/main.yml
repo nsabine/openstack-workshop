@@ -1,6 +1,10 @@
 ---
+- name: Set host
+  set_fact:
+    host_to_wait_for: "{{ ansible_host }}"
+
 - name: Wait until server is up and runnning
-  local_action: wait_for host="{{ ansible_host }}" port=22 search_regex=OpenSSH timeout=6000
+  local_action: wait_for host="{{ host_to_wait_for }}" port=22 search_regex=OpenSSH timeout=6000 
   become: no
 
 - name: Check if running on Fedora
@@ -14,6 +18,15 @@
   until: result|success
   when: fedora_release.rc == 0
 
+- name: enable ansible pipelining
+  raw: sed -i -e 's/Defaults.*requiretty/Defaults !requiretty/g' /etc/sudoers 
+
 - name: Set SELinux to permisive
   selinux: policy=targeted state=permissive
   when: fedora_release.rc == 0
+
+- name: Disable DNS Resolution for SSH
+  lineinfile: dest=/etc/ssh/sshd_config line="UseDNS no" create=yes
+  notify: 
+  - restart sshd
+
