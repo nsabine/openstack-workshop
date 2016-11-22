@@ -2,18 +2,12 @@
 # publish
 # add your SSH key to ssh-agent
 # get DNS name for workstation, update the following variable
-#BASTION=0workstation-nsabineosp-pnqzihkj.srv.ravcloud.com
-BASTION=0workstation-nsabineosp2-gjisg7pc.srv.ravcloud.com
+BASTION=0workstation-nsabineosp-dwjz8qc9.srv.ravcloud.com
 
 # No more changes needed 
 
-
 # copy files to bastion host
 scp setup.sh cloud-user@$BASTION:
-#scp clouds.yaml cloud-user@$BASTION:
-
-# configure ansible auth
-#ssh -t cloud-user@$BASTION 'sudo mkdir -p /root/.config/openstack/; sudo mv /home/cloud-user/clouds.yaml /root/.config/openstack/'
 
 # run setup script
 ssh cloud-user@$BASTION 'chmod 755 setup.sh'
