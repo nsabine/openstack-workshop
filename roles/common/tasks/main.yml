@@ -1,6 +1,6 @@
 ---
 - name: Wait until server is up and runnning
-  local_action: wait_for host="{{ ansible_host }}" state=started
+  local_action: wait_for host="{{ ansible_host }}" state=started timeout=6000
   become: no
 
 - name: Check if running on Fedora
